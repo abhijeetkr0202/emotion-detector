@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _loading = false;
       _outputs = output;
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image,outputs: _outputs,)));
     });
   }
 
@@ -64,12 +65,14 @@ class _HomeScreenState extends State<HomeScreen> {
       if (pickedFile != null) {
         _loading=true;
         _image = File(pickedFile.path);
+
       } else {
         print('No image selected.');
       }
     });
+
     classifyImage(_image);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image,outputs: _outputs[0]["label"],)),);
+    // Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image,outputs: _outputs[0]["label"],)),);
   }
 
   Future getImageFromGallery() async{
@@ -79,12 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (pickedFile != null) {
         _loading=true;
         _image = File(pickedFile.path);
+        // Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image)));
       } else {
         print('No image selected.');
       }
     });
     classifyImage(_image);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image,outputs: _outputs[0]["label"],)),);
+    // Navigator.push(context, MaterialPageRoute(builder: (context)=>Result(image: _image,outputs: _outputs[0]["label"],)),);
   }
 
   @override
@@ -135,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height:50,
               ),
               MaterialButton(
-                  onPressed: getImageFromGallery,
+                  onPressed:getImageFromGallery,
                   elevation: 10.0,
                   focusColor: Colors.amber,
                   color: Colors.deepOrangeAccent,

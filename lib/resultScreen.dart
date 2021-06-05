@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:tflite/tflite.dart';
+
 class Result extends StatefulWidget {
   File image;
   List outputs;
@@ -17,14 +17,42 @@ class _ResultState extends State<Result> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          child: Image.file(widget.image)
-          // decoration: BoxDecoration(
-          //   image:DecorationImage(
-          //     image: Image.file(_image),
-          //   )
-          //  
-          // ),
+        body: Stack(
+         children: <Widget>[
+           Container(
+             decoration: BoxDecoration(
+               image: DecorationImage(
+                 image: FileImage(widget.image),
+                 fit: BoxFit.cover,
+               )
+             ),
+           ),
+           Padding(
+             padding: const EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
+             child: DraggableScrollableSheet(builder:(context,controller) {
+               return Container(
+                 padding: EdgeInsets.all(30.0),
+                 child: ListView.builder(itemCount: 1,
+                 physics: BouncingScrollPhysics(),
+                 controller: controller,
+                 itemBuilder: (BuildContext context,index){
+                   return Column(
+                     children: <Widget>[
+                       Center(child: Text(widget.outputs[0]["label"],style: TextStyle(color: Colors.black,fontSize: 50.0),)),
+                       
+                     ],
+                   );
+                   },
+                 ),
+                 decoration: BoxDecoration(
+                   color: Colors.white,
+                   borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))
+                 ),
+               );
+             }
+             ),
+           )
+         ],
         ),
       ),
     );
